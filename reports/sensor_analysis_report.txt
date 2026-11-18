@@ -1,0 +1,44 @@
+INDUSTRIAL SENSOR ANALYSIS REPORT
+=================================
+Generated: 2026-11-18 13:29:16.701750
+
+Total Measurements: 20
+Normal Measurements: 16
+Abnormal Measurements: 4
+
+SENSOR STATISTICS
+-----------------
+
+temperature_C
+Minimum: 40.86 °C
+Maximum: 91.80 °C
+Average: 50.71 °C
+
+voltage_V
+Minimum: 196.71 V
+Maximum: 258.34 V
+Average: 229.23 V
+
+current_A
+Minimum: 4.05 A
+Maximum: 8.80 A
+Average: 5.17 A
+
+DETECTED FAULTS
+---------------
+
+Measurement 6
+Timestamp: 2026-11-17 19:39:32
+WARNING: OVERHEATING: 91.80 °C
+
+Measurement 11
+Timestamp: 2026-11-17 19:39:37
+WARNING: UNDERVOLTAGE: 196.71 V
+
+Measurement 16
+Timestamp: 2026-11-17 19:39:42
+WARNING: OVERCURRENT: 8.80 A
+
+Measurement 19
+Timestamp: 2026-11-17 19:39:45
+WARNING: OVERVOLTAGE: 258.34 V
