@@ -233,3 +233,70 @@ for engineering software development.
 - Generated sensor values can differ between executions.
 - Alarm thresholds are illustrative and must not be used as real equipment protection settings.
 
+
+## Automated Testing
+
+The application uses pytest to verify the reliability
+of sensor monitoring and analysis functions.
+
+The test suite covers:
+
+- Normal and abnormal sensor operating conditions
+- Overheating detection
+- Under-voltage and over-voltage detection
+- Overcurrent detection
+- Alarm threshold boundary conditions
+- Multiple simultaneous sensor faults
+- Minimum, maximum, and average calculations
+- Empty-dataset error handling
+- Sensor data validation
+- Missing and invalid measurement values
+- Invalid timestamps and non-finite values
+
+### Running Tests Locally
+
+Activate the project's Python virtual environment.
+
+Then execute:
+
+```bash
+python -m pytest -v
+```
+
+The current test suite contains 18 automated tests.
+
+
+## Continuous Integration — GitLab CI/CD
+
+The project uses GitLab CI/CD to automatically execute
+the Python test suite whenever changes are pushed
+to the GitLab repository.
+
+The pipeline is configured in `.gitlab-ci.yml`.
+
+### Pipeline Workflow
+
+1. A commit is pushed to the GitLab repository.
+2. GitLab starts the automated testing pipeline.
+3. A Python 3.14 container is prepared.
+4. Project dependencies are installed from
+   `requirements.txt`.
+5. pytest executes the automated tests.
+6. GitLab reports the pipeline result.
+
+### CI/CD Configuration
+
+The pipeline uses:
+
+- GitLab CI/CD
+- Python 3.14
+- pytest
+- pip
+- GitLab Runner
+
+The initial GitLab CI/CD pipeline completed successfully.
+
+### Repository Links
+
+- [GitHub Repository](https://github.com/BaluBijubal/industrial-sensor-monitoring)
+- [GitLab Repository](https://gitlab.com/BaluBijubal/industrial-sensor-monitoring)
