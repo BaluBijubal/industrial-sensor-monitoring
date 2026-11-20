@@ -3,6 +3,9 @@ import csv
 import math
 from datetime import datetime
 from pathlib import Path
+from sensor_rules import detect_faults 
+from sensor_statistics import calculate_statistics 
+from sensor_validation import validate_measurement 
 
 filename = "data/sensor_data.csv"
 
@@ -25,29 +28,19 @@ validated_data = []
 # Validate every measurement
 for number, measurement in enumerate(sensor_data, start=1):
 
-    try:
-        timestamp = datetime.fromisoformat(measurement["timestamp"])
-        temperature = float(measurement["temperature_C"])
-        voltage = float(measurement["voltage_V"])
-        current = float(measurement["current_A"])
+    validated_measurement = validate_measurement(
+        measurement,
+        number
+    )
 
-    except (KeyError, TypeError, ValueError) as error:
-        raise ValueError(
-            f"Invalid measurement {number}: {error}"
-        ) from error
+     # Add each validated record to the list
+    validated_data.append(validated_measurement)
 
-    # Reject NaN and infinity values
-    if not all(math.isfinite(value) for value in
-               [temperature, voltage, current]):
-        raise ValueError(f"Non-finite value in measurement {number}")
+    # Display validation results
+    print("\nData validation completed successfully!")
+    print("Valid measurements:", len(validated_data))
+    print("First validated measurement:", validated_data[0])
 
-    # Store the validated record
-    validated_data.append({
-        "timestamp": timestamp,
-        "temperature_C": temperature,
-        "voltage_V": voltage,
-        "current_A": current
-    })
 
 print("\nData validation completed successfully!")
 print("Valid measurements:", len(validated_data))
@@ -73,10 +66,12 @@ for sensor_name, unit in sensors:
     for measurement in validated_data:
         values.append(measurement[sensor_name])
 
-    # Calculate statistics
-    minimum = min(values)
-    maximum = max(values)
-    average = sum(values) / len(values)
+    # Calculate statistics using our reusable function
+    statistics = calculate_statistics(values)
+
+    minimum = statistics["minimum"]
+    maximum = statistics["maximum"]
+    average = statistics["average"]
 
     # Display results
     print(f"\n{sensor_name}")
@@ -102,20 +97,11 @@ for number, measurement in enumerate(validated_data, start=1):
     # Store detected faults for this measurement
     faults = []
 
-    # Temperature threshold
-    if temperature > 75:
-        faults.append(f"OVERHEATING: {temperature:.2f} °C")
-
-    # Voltage thresholds
-    if voltage < 207:
-        faults.append(f"UNDERVOLTAGE: {voltage:.2f} V")
-
-    elif voltage > 253:
-        faults.append(f"OVERVOLTAGE: {voltage:.2f} V")
-
-    # Current threshold
-    if current > 8:
-        faults.append(f"OVERCURRENT: {current:.2f} A")
+    faults = detect_faults(
+        temperature,
+        voltage,
+        current
+    )
 
     # Display warnings if faults were detected
     
