@@ -1,0 +1,17 @@
+
+# GitLab CI/CD pipeline
+# Industrial Sensor Monitoring & Data Analysis
+
+stages:
+  - test
+
+pytest_tests:
+  stage: test
+  image: python:3.14-slim
+
+  before_script:
+    - python --version
+    - python -m pip install -r requirements.txt
+
+  script:
+    - python -m pytest -v
